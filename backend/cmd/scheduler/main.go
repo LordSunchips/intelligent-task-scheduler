@@ -13,7 +13,7 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/api/tasks", taskController.GetTasksHandler).Methods("GET")
-	router.HandleFunc("api/tasks", taskController.AddTaskHandler).Methods("POST")
+	router.HandleFunc("/api/tasks", taskController.AddTaskHandler).Methods("POST")
 
 	http.ListenAndServe(":8080", router)
 }

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"github.com/LordSunchips/intelligent-task-scheduler/backend/internal/service"
+	"github.com/LordSunchips/intelligent-task-scheduler/backend/internal/model"
 )
 
 // TaskController handles HTTP requests related to tasks
@@ -18,20 +19,17 @@ func NewTaskController(service *service.TaskService) *TaskController {
 
 // AddTaskHandler handles HTTP requests to add a new task
 func (tc *TaskController) AddTaskHandler(w http.ResponseWriter, r *http.Request) {
-	var requestBody struct {
-		Name string `json:"name"`
-	}
-
-	err := json.NewDecoder(r.Body).Decode(&requestBody)
-	if err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+	var task model.Task
+	if err := json.NewDecoder(r.Body).Decode(&task); err != nil {
+		http.Error(w, "Failed to decode request body", http.StatusBadRequest)
 		return
 	}
 
-	task := tc.TaskService.AddTask(requestBody.Name)
-	
+	addedtask := tc.TaskService.AddTask(task.Name)
+
+	// Respond with the addede task
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(task)
+	json.NewEncoder(w).Encode(addedtask)
 }
 
 // GetTasksHandler handles HTTP requests to get all tasks
