@@ -21,7 +21,7 @@ func (ts *TaskService) AddTask(name string) *model.Task {
 	task := &model.Task{
 		ID: "unique-id",
 		Name: name,
-		Status: "Pending"
+		Status: "Pending",
 	}
 	ts.Tasks = append(ts.Tasks, *task)
 	return task

@@ -1,7 +1,5 @@
-# Dockerfile
-
-# Use a Go base image
-FROM golang:alpine
+# Use a Go base image with the same version as your local environment
+FROM golang:1.22.3-alpine
 
 # Set the current working directory inside the container
 WORKDIR /app

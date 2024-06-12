@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-
 	"github.com/LordSunchips/intelligent-task-scheduler/backend/internal/controller"
 	"github.com/LordSunchips/intelligent-task-scheduler/backend/internal/service"
 	"github.com/gorilla/mux"

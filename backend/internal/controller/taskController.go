@@ -12,10 +12,8 @@ type TaskController struct {
 }
 
 // NewTaskController creates a new instance of TaskController
-func NewTaskController(ts *service.TaskService) *TaskController {
-	return &TaskController{
-		TaskService: ts,
-	}
+func NewTaskController(service *service.TaskService) *TaskController {
+	return &TaskController{ TaskService: service }
 }
 
 // AddTaskHandler handles HTTP requests to add a new task
@@ -30,7 +28,7 @@ func (tc *TaskController) AddTaskHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	taks := tc.TaskService.AddTask(requestBody.Name)
+	task := tc.TaskService.AddTask(requestBody.Name)
 	
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(task)
@@ -39,7 +37,6 @@ func (tc *TaskController) AddTaskHandler(w http.ResponseWriter, r *http.Request)
 // GetTasksHandler handles HTTP requests to get all tasks
 func (tc *TaskController) GetTasksHandler(w http.ResponseWriter, r *http.Request) {
 	tasks := tc.TaskService.GetTasks()
-
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(tasks)
 }
