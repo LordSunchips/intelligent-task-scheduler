@@ -39,7 +39,15 @@ func (ts *TaskService) CreateTask(name string, priority int, deadline string, re
 	return task
 }
 
-// 
+// GetTask returns a task by ID
+func (ts *TaskService) GetTask(id string) (*model.Task, error) {
+	for _, task := range ts.Tasks {
+		if task.ID == id {
+			return &task, nil
+		}
+	}
+	return nil, fmt.Errorf("Task not found")
+}
 
 // GetTasks returns the list of tasks
 func (ts *TaskService) GetTasks() []model.Task {

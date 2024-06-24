@@ -32,6 +32,20 @@ func (tc *TaskController) CreateTaskHandler(w http.ResponseWriter, r *http.Reque
 	json.NewEncoder(w).Encode(createdTask)
 }
 
+// GetTaskHandler handles HTTP GET requests to get a task by ID
+func (tc *TaskController) GetTaskHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	taskID := vars["id"]
+	task, err := tc.TaskService.GetTask(taskID)
+	if err != nil {
+		http.Error(w, "Task not found", http.StatusNotFound)
+		return
+	}
+	
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(task)
+}
+
 // GetTasksHandler handles HTTP requests to get all tasks
 func (tc *TaskController) GetTasksHandler(w http.ResponseWriter, r *http.Request) {
 	tasks := tc.TaskService.GetTasks()
