@@ -17,19 +17,19 @@ func NewTaskController(service *service.TaskService) *TaskController {
 	return &TaskController{ TaskService: service }
 }
 
-// AddTaskHandler handles HTTP requests to add a new task
-func (tc *TaskController) AddTaskHandler(w http.ResponseWriter, r *http.Request) {
+// CreateTaskHandler handles HTTP POST requests to create a new task
+func (tc *TaskController) CreateTaskHandler(w http.ResponseWriter, r *http.Request) {
 	var task model.Task
 	if err := json.NewDecoder(r.Body).Decode(&task); err != nil {
 		http.Error(w, "Failed to decode request body", http.StatusBadRequest)
 		return
 	}
 
-	addedtask := tc.TaskService.AddTask(task.Name)
+	createdTask := tc.TaskService.CreateTask(task.Name)
 
-	// Respond with the addede task
+	// Respond with the created task
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(addedtask)
+	json.NewEncoder(w).Encode(createdTask)
 }
 
 // GetTasksHandler handles HTTP requests to get all tasks
