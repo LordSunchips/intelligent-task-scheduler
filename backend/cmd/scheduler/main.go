@@ -12,8 +12,11 @@ func main() {
 	taskController := controller.NewTaskController(taskService)
 	router := mux.NewRouter()
 
+	router.HandleFunc("/api/createTask", taskController.CreateTaskHandler).Methods("POST")
+	router.HandleFunc("/api/task/{id}", taskController.GetTaskHandler).Methods("GET")
+	router.HandleFunc("/api/updateTask/{id}", taskController.UpdateTaskHandler).Methods("PUT")
+	router.HandleFunc("/api/deleteTask/{id}", taskController.DeleteTaskHandler).Methods("DELETE")
 	router.HandleFunc("/api/tasks", taskController.GetTasksHandler).Methods("GET")
-	router.HandleFunc("/api/tasks", taskController.AddTaskHandler).Methods("POST")
 
 	http.ListenAndServe(":8080", router)
 }
