@@ -50,6 +50,18 @@ func (ts *TaskService) GetTask(id string) (*model.Task, error) {
 }
 
 // UpdateTask updates a task by ID
+func (ts *TaskService) UpdateTask(id string, name string, priority int, deadline string, resource_needed int) (*model.Task, error) {
+	for i, task := range ts.Tasks {
+		if task.ID == id {
+			ts.Tasks[i].Name = name
+			ts.Tasks[i].Priority = priority
+			ts.Tasks[i].Deadline = deadline
+			ts.Tasks[i].ResourceNeeded = resource_needed
+			return &ts.Tasks[i], nil
+		}
+	}
+	return nil, fmt.Errorf("Task not found")
+}
 
 // DeleteTask deletes a task by ID
 func (ts *TaskService) DeleteTask(id string) error {

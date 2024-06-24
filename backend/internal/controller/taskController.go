@@ -47,6 +47,25 @@ func (tc *TaskController) GetTaskHandler(w http.ResponseWriter, r *http.Request)
 }
 
 // UpdateTaskHandler handles HTTP PUT requests to update a task by ID
+func (tc *TaskController) UpdateTaskHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	taskID := vars["id"]
+	var task model.Task
+	if err := json.NewDecoder(r.Body).Decode(&task); err != nil {
+		http.Error(w, "Failed to decode request body", http.StatusBadRequest)
+		return
+	}
+
+	updatedTask, err := tc.TaskService.UpdateTask(taskID, task.Name, task.Priority, task.Deadline, task.ResourceNeeded)
+	if err != nil {
+		http.Error(w, "Task not found", http.StatusNotFound)
+		return
+	}
+
+	// Respond with the updated task
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(updatedTask)
+}
 
 // DeleteTaskHandler handles HTTP DELETE requests to delete a task by ID
 func (tc *TaskController) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
