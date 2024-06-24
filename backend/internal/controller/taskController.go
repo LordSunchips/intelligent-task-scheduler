@@ -46,6 +46,20 @@ func (tc *TaskController) GetTaskHandler(w http.ResponseWriter, r *http.Request)
 	json.NewEncoder(w).Encode(task)
 }
 
+// UpdateTaskHandler handles HTTP PUT requests to update a task by ID
+
+// DeleteTaskHandler handles HTTP DELETE requests to delete a task by ID
+func (tc *TaskController) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	taskID := vars["id"]
+	err := tc.TaskService.DeleteTask(taskID)
+	if err != nil {
+		http.Error(w, "Task not found", http.StatusNotFound)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
 // GetTasksHandler handles HTTP requests to get all tasks
 func (tc *TaskController) GetTasksHandler(w http.ResponseWriter, r *http.Request) {
 	tasks := tc.TaskService.GetTasks()
