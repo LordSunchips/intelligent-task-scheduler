@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"github.com/LordSunchips/intelligent-task-scheduler/backend/internal/service"
 	"github.com/LordSunchips/intelligent-task-scheduler/backend/internal/model"
+	"github.com/gorilla/mux"
 )
 
 // TaskController handles HTTP requests related to tasks
@@ -25,7 +26,7 @@ func (tc *TaskController) CreateTaskHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	createdTask := tc.TaskService.CreateTask(task.Name)
+	createdTask := tc.TaskService.CreateTask(task.Name, task.Priority, task.Deadline, task.ResourceNeeded)
 
 	// Respond with the created task
 	w.Header().Set("Content-Type", "application/json")

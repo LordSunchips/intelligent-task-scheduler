@@ -2,6 +2,10 @@ package service
 
 import (
 	"github.com/LordSunchips/intelligent-task-scheduler/backend/internal/model"
+	"crypto/md5"
+	"encoding/hex"
+	"fmt"
+	"time"
 )
 
 // TaskService provides methods for task management
