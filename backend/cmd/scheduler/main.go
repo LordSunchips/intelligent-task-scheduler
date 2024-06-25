@@ -18,5 +18,5 @@ func main() {
 	router.HandleFunc("/api/deleteTask/{id}", taskController.DeleteTaskHandler).Methods("DELETE")
 	router.HandleFunc("/api/tasks", taskController.GetTasksHandler).Methods("GET")
 
-	http.ListenAndServe(":8080", router)
+	http.ListenAndServe(":5001", router)
 }
