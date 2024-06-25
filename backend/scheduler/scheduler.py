@@ -64,5 +64,7 @@ if __name__ == "__main__":
 def connect_worker():
     response = request.get_json()
     worker_id, total_resources = response['id'], response['total_resources']
+    if worker_id in [worker.id for worker in scheduler.worker_nodes]:
+        return jsonify({"message": "Worker already connected"}), 200
     scheduler.add_worker(WorkerNode(worker_id, total_resources, scheduler.api_url))
     
